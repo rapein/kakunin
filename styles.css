@@ -1,0 +1,29 @@
+/* 他のスタイルはそのまま */
+
+#tshirt-preview {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    margin-right: 40px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+}
+
+#controls {
+    margin-top: 20px;
+}
+
+input[type="file"] {
+    display: block;
+    margin-bottom: 10px;
+}
