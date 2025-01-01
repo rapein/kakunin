@@ -4,11 +4,13 @@ const imageUpload = document.getElementById('image-upload');
 const textInput = document.getElementById('text-input');
 const colorPicker = document.getElementById('color-picker');
 const fontSelector = document.getElementById('font-selector');
+const textSizeInput = document.getElementById('text-size');
 
 let tshirtImage = new Image(); // Tシャツの画像
 let uploadedImage = new Image(); // ユーザーがアップロードする画像
-let imageX = 50, imageY = 50;  // 画像の初期位置
-let dragging = false;
+let imageX = 50, imageY = 50, imageWidth = 100, imageHeight = 100;  // 画像の初期位置とサイズ
+let textX = 20, textY = 350, textSize = 30; // テキストの初期位置とサイズ
+let draggingImage = false, draggingText = false;
 let dragStartX, dragStartY;
 
 // 初期のTシャツ画像
@@ -19,7 +21,7 @@ tshirtImage.onload = () => {
 };
 
 // Tシャツの色を変更
-colorPicker.addEventListener('input', (e) => {
+colorPicker.addEventListener('input', () => {
     drawCanvas(); // 色が選ばれたら再描画
 });
 
@@ -31,13 +33,21 @@ imageUpload.addEventListener('change', (e) => {
         uploadedImage.onload = function() {
             imageX = 100; // 画像の初期位置
             imageY = 100;
+            imageWidth = uploadedImage.width; // 画像のサイズを初期化
+            imageHeight = uploadedImage.height;
             drawCanvas();
         };
     };
     reader.readAsDataURL(e.target.files[0]);
 });
 
-// テキストと色を適用する関数
+// テキストのサイズ変更
+textSizeInput.addEventListener('input', (e) => {
+    textSize = parseInt(e.target.value);
+    drawCanvas();
+});
+
+// 描画関数
 function drawCanvas() {
     // 背景色を塗りつぶす（Tシャツの色を変更）
     ctx.fillStyle = colorPicker.value;
@@ -50,43 +60,57 @@ function drawCanvas() {
 
     // アップロードした画像を描画
     if (uploadedImage.src) {
-        ctx.drawImage(uploadedImage, imageX, imageY);
+        ctx.drawImage(uploadedImage, imageX, imageY, imageWidth, imageHeight);
     }
 
     // テキストを描画
-    ctx.font = `30px ${fontSelector.value}`;
+    ctx.font = `${textSize}px ${fontSelector.value}`;
     ctx.fillStyle = 'black';
-    ctx.fillText(textInput.value, 20, 350);
+    ctx.fillText(textInput.value, textX, textY);
 }
 
-// ドラッグ開始時に画像位置を計算
+// 画像のドラッグ開始
 canvas.addEventListener('mousedown', (e) => {
     const mouseX = e.offsetX;
     const mouseY = e.offsetY;
 
     // 画像のクリック位置を判定してドラッグ開始
-    if (mouseX >= imageX && mouseX <= imageX + uploadedImage.width &&
-        mouseY >= imageY && mouseY <= imageY + uploadedImage.height) {
-        dragging = true;
+    if (mouseX >= imageX && mouseX <= imageX + imageWidth &&
+        mouseY >= imageY && mouseY <= imageY + imageHeight) {
+        draggingImage = true;
         dragStartX = mouseX - imageX;
         dragStartY = mouseY - imageY;
     }
+    // テキストのクリック位置を判定してドラッグ開始
+    else if (mouseX >= textX && mouseX <= textX + ctx.measureText(textInput.value).width &&
+             mouseY >= textY - textSize && mouseY <= textY) {
+        draggingText = true;
+        dragStartX = mouseX - textX;
+        dragStartY = mouseY - textY;
+    }
 });
 
-// 画像をドラッグして移動
+// 画像またはテキストをドラッグして移動
 canvas.addEventListener('mousemove', (e) => {
-    if (dragging) {
+    if (draggingImage) {
         const mouseX = e.offsetX;
         const mouseY = e.offsetY;
         imageX = mouseX - dragStartX;
         imageY = mouseY - dragStartY;
+        drawCanvas();
+    } else if (draggingText) {
+        const mouseX = e.offsetX;
+        const mouseY = e.offsetY;
+        textX = mouseX - dragStartX;
+        textY = mouseY - dragStartY;
         drawCanvas();
     }
 });
 
 // ドラッグ終了
 canvas.addEventListener('mouseup', () => {
-    dragging = false;
+    draggingImage = false;
+    draggingText = false;
 });
 
 // 「デザインを適用」ボタンをクリックしたときに描画を更新
