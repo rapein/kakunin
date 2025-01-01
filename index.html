@@ -14,9 +14,8 @@
     <main>
         <section id="design-section">
             <div id="tshirt-preview">
-                <!-- 指定されたTシャツ画像URLを使う -->
-                <img src="https://illustimage.com/photo/dl/4307.png?20171029" alt="Tシャツ" id="tshirt-image">
-                <div id="text-overlay"></div>
+                <!-- キャンバス要素を追加 -->
+                <canvas id="canvas" width="300" height="400"></canvas>
             </div>
 
             <div id="controls">
@@ -35,6 +34,9 @@
                     <option value="Georgia">Georgia</option>
                     <option value="Verdana">Verdana</option>
                 </select>
+
+                <label for="image-upload">画像を選択:</label>
+                <input type="file" id="image-upload" accept="image/*">
 
                 <button id="apply-design">デザインを適用</button>
             </div>
