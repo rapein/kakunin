@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tシャツデザイン考案</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Tシャツデザイン考案ツール</h1>
+    </header>
+
+    <main>
+        <section id="design-section">
+            <div id="tshirt-preview">
+                <img src="tshirt-blank.png" alt="Tシャツ" id="tshirt-image">
+                <div id="text-overlay"></div>
+            </div>
+
+            <div id="controls">
+                <h2>デザインをカスタマイズ</h2>
+
+                <label for="color-picker">Tシャツの色:</label>
+                <input type="color" id="color-picker" name="color-picker" value="#ffffff">
+
+                <label for="text-input">テキストを入力:</label>
+                <input type="text" id="text-input" placeholder="テキストを入力">
+
+                <label for="font-selector">フォントを選択:</label>
+                <select id="font-selector">
+                    <option value="Arial">Arial</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Verdana">Verdana</option>
+                </select>
+
+                <button id="apply-design">デザインを適用</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tシャツデザイン考案サイト</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
