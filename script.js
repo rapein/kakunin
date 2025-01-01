@@ -5,18 +5,23 @@ const textInput = document.getElementById('text-input');
 const colorPicker = document.getElementById('color-picker');
 const fontSelector = document.getElementById('font-selector');
 
-let tshirtImage = new Image();
+let tshirtImage = new Image(); // Tシャツの画像
 let uploadedImage = new Image(); // ユーザーがアップロードする画像
 let imageX = 50, imageY = 50;  // 画像の初期位置
 let dragging = false;
 let dragStartX, dragStartY;
 
-// Tシャツ画像（背景）を読み込んで描画
+// 初期のTシャツ画像
 tshirtImage.src = 'https://illustimage.com/photo/dl/4307.png?20171029'; // Tシャツ画像URL
 
 tshirtImage.onload = () => {
     drawCanvas(); // 最初にTシャツ画像を描画
 };
+
+// Tシャツの色を変更
+colorPicker.addEventListener('input', (e) => {
+    drawCanvas(); // 色が選ばれたら再描画
+});
 
 // 画像をアップロードしてキャンバスに表示
 imageUpload.addEventListener('change', (e) => {
@@ -34,7 +39,7 @@ imageUpload.addEventListener('change', (e) => {
 
 // テキストと色を適用する関数
 function drawCanvas() {
-    // 背景色を塗りつぶす
+    // 背景色を塗りつぶす（Tシャツの色を変更）
     ctx.fillStyle = colorPicker.value;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -58,7 +63,7 @@ function drawCanvas() {
 canvas.addEventListener('mousedown', (e) => {
     const mouseX = e.offsetX;
     const mouseY = e.offsetY;
-    
+
     // 画像のクリック位置を判定してドラッグ開始
     if (mouseX >= imageX && mouseX <= imageX + uploadedImage.width &&
         mouseY >= imageY && mouseY <= imageY + uploadedImage.height) {
