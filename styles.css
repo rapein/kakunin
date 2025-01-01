@@ -23,7 +23,7 @@ canvas {
     margin-top: 20px;
 }
 
-input[type="file"] {
+input[type="file"], input[type="number"] {
     display: block;
     margin-bottom: 10px;
 }
